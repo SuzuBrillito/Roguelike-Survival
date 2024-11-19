@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
     public PlayerManager playerCont;
 
     // Start is called before the first frame update
-    private void Start()
+    public void Init()
     {
 
         m_Tilemap = GetComponentInChildren<Tilemap>(); //busca el componente tilemap
@@ -56,7 +56,7 @@ public class BoardManager : MonoBehaviour
         }
 
         //llama a spawn y pasale la info. El primer elemento es este mismo script, y el segundo es la casilla (1,1)
-        playerCont.Spawn(this, new Vector2Int(1, 1));
+        
       
     }
 

@@ -5,14 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-
+    
     private BoardManager m_Board;
     private Vector2Int m_CellPosition;
 
     public void Spawn (BoardManager boardManager, Vector2Int cell)
     {
         m_Board = boardManager; 
-        m_CellPosition = cell;
+        MoveTo(cell);
 
         //el grid tiene un metodo para saber la posicion de una casilla, GetCellCenterWorld, pero esa informacion la tiene el BoardManager
         //el boardmanager deberia ser la clase que lidia con toda la info relacionada al tablero, como convertir una casilla a una posicion del mundo
@@ -21,7 +21,13 @@ public class PlayerManager : MonoBehaviour
 
         //mueve el pj a el metodo que hemos hecho que es un vector 3 (la informacion que le damos es cell, que es la casilla)
 
-        transform.position = m_Board.CellToWorld(cell);
+        
+    }
+
+    public void MoveTo(Vector2Int cell)
+    {
+        m_CellPosition = cell;
+        transform.position = m_Board.CellToWorld(m_CellPosition);
     }
 
     private void Update ()
@@ -33,6 +39,7 @@ public class PlayerManager : MonoBehaviour
         {
             newCellTarget.y += 1;
             hasMoved = true;
+            //GameManager.Instance.m_turnManager.Tick();
         }
         else if (Keyboard.current.downArrowKey.wasPressedThisFrame)
         {
@@ -57,8 +64,7 @@ public class PlayerManager : MonoBehaviour
 
             if (cellData != null && cellData.pasable)
             {
-                m_CellPosition = newCellTarget;
-                transform.position = m_Board.CellToWorld(m_CellPosition);
+                MoveTo(newCellTarget);
             }
         }
 
