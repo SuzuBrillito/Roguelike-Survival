@@ -9,6 +9,7 @@ public class BoardManager : MonoBehaviour
     public class CellData
     {
         public bool pasable;
+        public GameObject ContainObject;
     }
 
     private CellData[,] m_BoardData;
@@ -23,6 +24,8 @@ public class BoardManager : MonoBehaviour
 
     private Grid m_Grid;
     public PlayerManager playerCont;
+
+    public GameObject FoodPrefab;
 
     // Start is called before the first frame update
     public void Init()
@@ -75,9 +78,10 @@ public class BoardManager : MonoBehaviour
         return m_BoardData[cellIndex.x,cellIndex.y];
     }
 
-    // Update is called once per frame
-    void Update()
+    //funcion/metodo que diga cuantos objetos de comida voy a spawnear, que por cada uno vaya buscando el escenario
+    //dentro de los muros y que lo spawnee en una casilla aleatoria, si esa casilla esta vacia y es pasable
+    public void SpawnComida()
     {
-        
+
     }
 }
