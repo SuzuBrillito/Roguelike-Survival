@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour
 {
+    public WallObject WallPrefab;
+    public WallObject2 Wall2Prefab;
 
     public class CellData
     {
@@ -63,6 +65,8 @@ public class BoardManager : MonoBehaviour
             }
         }
         m_EmptyCells.Remove(new Vector2Int(1,1));
+        GenerateObstacles();
+        GenerateObstacles2();
         GenerateFood();
         //llama a spawn y pasale la info. El primer elemento es este mismo script, y el segundo es la casilla (1,1)
         
@@ -95,12 +99,64 @@ public class BoardManager : MonoBehaviour
             Vector2Int coord = m_EmptyCells[randomIndex];
 
             m_EmptyCells.RemoveAt(randomIndex);
-            CellData data = m_BoardData[coord.x, coord.y];
-            
             FoodObject newFood = Instantiate(FoodPrefab);
-            newFood.transform.position = CellToWorld(coord);
-            data.ContainObject = newFood;
+            AddObject(newFood, coord);
             
         }
+    }
+
+    //metodo generar paredes
+    //genera un num aleatorio de obstaculos entre 5 y 10, en casillas vacias del escenario, que no sean vacias
+    //ocuparse por un obstaculo
+    //que el obstaculo sea uno aleatorio de una lista
+
+    void GenerateObstacles()
+    {
+        int obstacleCount = Random.Range(5,10);
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int coord = m_EmptyCells[randomIndex];
+
+            m_EmptyCells.RemoveAt(randomIndex);
+            WallObject newObstacle = Instantiate(WallPrefab);
+            AddObject(newObstacle, coord);
+
+        }
+    }
+
+    void GenerateObstacles2()
+    {
+        int obstacleCount2 = Random.Range(3, 6);
+        for (int i = 0; i < obstacleCount2; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int coord = m_EmptyCells[randomIndex];
+
+            m_EmptyCells.RemoveAt(randomIndex);
+            WallObject2 newObstacle2 = Instantiate(Wall2Prefab);
+            AddObject(newObstacle2, coord);
+
+        }
+    }
+
+    //nueva funcion AddObject, queremos que necesite un cell object y una coord, qie coja la coord, mueva el objeto a
+    // ese lugar, que cambie el objeto contenido por el nuevo, y que inicialice el metodo del objeto con esa coordenada
+    void AddObject(CellObject obj, Vector2Int coord)
+    {
+        CellData data = m_BoardData[coord.x, coord.y];
+        obj.transform.position = CellToWorld(coord);
+        data.ContainObject = obj;
+        obj.Init(coord);
+    }
+
+    public void SetCellTile(Vector2Int cellIndex, Tile tile)
+    {
+        m_Tilemap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y, 0), tile); 
+    }
+
+    public Tile GetCellTile(Vector2Int cellIndex)
+    {
+        return m_Tilemap.GetTile<Tile>(new Vector3Int (cellIndex.x, cellIndex.y, 0));
     }
 }

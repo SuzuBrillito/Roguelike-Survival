@@ -690,6 +690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a85ec939c920004bb90f47e3cbf6d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WallPrefab: {fileID: 6541525621644356069, guid: 84d6ec28fed128f4fa98314e2d7c8c57, type: 3}
+  Wall2Prefab: {fileID: 305305731677090149, guid: a38c501aeb7fcc34c85bf94716676391, type: 3}
   Height: 8
   Width: 8
   GroundTiles:
