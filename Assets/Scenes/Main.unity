@@ -692,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WallPrefab: {fileID: 6541525621644356069, guid: 84d6ec28fed128f4fa98314e2d7c8c57, type: 3}
   Wall2Prefab: {fileID: 305305731677090149, guid: a38c501aeb7fcc34c85bf94716676391, type: 3}
+  ExitPrefab: {fileID: 875542997093998785, guid: 4c2a9830d1b06f144bd4e96f9b3f3b56, type: 3}
   Height: 8
   Width: 8
   GroundTiles:
@@ -789,6 +790,7 @@ MonoBehaviour:
   boardManager: {fileID: 556742907}
   playerManager: {fileID: 318160345}
   UIDoc: {fileID: 1434484380}
+  currentLevel: 0
 --- !u!4 &1484678695
 Transform:
   m_ObjectHideFlags: 0

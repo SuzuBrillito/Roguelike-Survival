@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public UIDocument UIDoc;
     private Label m_FoodLabel;
 
+    public int currentLevel = 0;
+
     private void Awake()
     {
         if (Instance != null)
@@ -34,10 +36,9 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Comida actual: " + m_comida);
 
         m_FoodLabel = UIDoc.rootVisualElement.Q<Label>("FoodLabel");
-        
 
-        boardManager.Init(); //crea mapa
-        playerManager.Spawn(boardManager, new Vector2Int(1,1));
+        NuevoNivel();
+        
         
     }
 
@@ -50,5 +51,14 @@ public class GameManager : MonoBehaviour
     {
         m_comida += amount;
         m_FoodLabel.text = "Comida: " + m_comida;
+    }
+
+    public void NuevoNivel()
+    {
+        boardManager.Limpiar();
+        boardManager.Init();
+        playerManager.Spawn(boardManager, new Vector2Int(1, 1));
+
+        currentLevel++;
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class BoardManager : MonoBehaviour
 {
     public WallObject WallPrefab;
     public WallObject2 Wall2Prefab;
+    public ExistCellObject ExitPrefab;
 
     public class CellData
     {
@@ -65,9 +67,13 @@ public class BoardManager : MonoBehaviour
             }
         }
         m_EmptyCells.Remove(new Vector2Int(1,1));
+        Vector2Int endCoord = new Vector2Int(Width - 2, Height - 2);
+        AddObject(Instantiate(ExitPrefab), endCoord);
+        m_EmptyCells.Remove(endCoord);
         GenerateObstacles();
         GenerateObstacles2();
         GenerateFood();
+        
         //llama a spawn y pasale la info. El primer elemento es este mismo script, y el segundo es la casilla (1,1)
         
       
@@ -140,6 +146,8 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    
+
     //nueva funcion AddObject, queremos que necesite un cell object y una coord, qie coja la coord, mueva el objeto a
     // ese lugar, que cambie el objeto contenido por el nuevo, y que inicialice el metodo del objeto con esa coordenada
     void AddObject(CellObject obj, Vector2Int coord)
@@ -158,5 +166,27 @@ public class BoardManager : MonoBehaviour
     public Tile GetCellTile(Vector2Int cellIndex)
     {
         return m_Tilemap.GetTile<Tile>(new Vector3Int (cellIndex.x, cellIndex.y, 0));
+    }
+
+    public void Limpiar()
+    {
+        if (m_BoardData == null) return;
+
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                var cellData = m_BoardData[x, y];
+
+                if (cellData.ContainObject != null)
+                {
+                    Destroy(cellData.ContainObject.gameObject);
+                }
+
+                SetCellTile(new Vector2Int(x, y), null);
+
+                
+            }
+        }
     }
 }
