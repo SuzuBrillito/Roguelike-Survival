@@ -30,6 +30,7 @@ public class BoardManager : MonoBehaviour
     public PlayerManager playerCont;
 
     public FoodObject FoodPrefab;
+    public FoodObjectBig BigFoodPrefab;
 
     private List<Vector2Int> m_EmptyCells;
 
@@ -73,10 +74,11 @@ public class BoardManager : MonoBehaviour
         GenerateObstacles();
         GenerateObstacles2();
         GenerateFood();
-        
+        GenerateFood2();
+
         //llama a spawn y pasale la info. El primer elemento es este mismo script, y el segundo es la casilla (1,1)
-        
-      
+
+
     }
 
     public Vector3 CellToWorld (Vector2Int cellIndex)
@@ -111,6 +113,21 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    void GenerateFood2()
+    {
+        int foodCount = 2;
+        for (int i = 0; i < foodCount; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int coord = m_EmptyCells[randomIndex];
+
+            m_EmptyCells.RemoveAt(randomIndex);
+            FoodObjectBig newFood = Instantiate(BigFoodPrefab);
+            AddObject(newFood, coord);
+
+        }
+    }
+
     //metodo generar paredes
     //genera un num aleatorio de obstaculos entre 5 y 10, en casillas vacias del escenario, que no sean vacias
     //ocuparse por un obstaculo
@@ -118,7 +135,7 @@ public class BoardManager : MonoBehaviour
 
     void GenerateObstacles()
     {
-        int obstacleCount = Random.Range(5,10);
+        int obstacleCount = Random.Range(3,7);
         for (int i = 0; i < obstacleCount; i++)
         {
             int randomIndex = Random.Range(0, m_EmptyCells.Count);
@@ -133,7 +150,7 @@ public class BoardManager : MonoBehaviour
 
     void GenerateObstacles2()
     {
-        int obstacleCount2 = Random.Range(3, 6);
+        int obstacleCount2 = Random.Range(2, 5);
         for (int i = 0; i < obstacleCount2; i++)
         {
             int randomIndex = Random.Range(0, m_EmptyCells.Count);

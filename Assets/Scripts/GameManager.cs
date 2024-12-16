@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
 
     public UIDocument UIDoc;
     private Label m_FoodLabel;
+    private VisualElement m_GameOverPanel;
+    private Label m_GameOverMessage;
+
+    
 
     public int currentLevel = 0;
 
@@ -36,8 +41,11 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Comida actual: " + m_comida);
 
         m_FoodLabel = UIDoc.rootVisualElement.Q<Label>("FoodLabel");
+        
+        m_GameOverPanel = UIDoc.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        m_GameOverMessage = m_GameOverPanel.Q<Label>("GameOverMessage");
 
-        NuevoNivel();
+        StartNewGame();
         
         
     }
@@ -51,7 +59,18 @@ public class GameManager : MonoBehaviour
     {
         m_comida += amount;
         m_FoodLabel.text = "Comida: " + m_comida;
+
+        if (m_comida <= 0)
+        {
+            playerManager.GameOver();
+            m_GameOverPanel.style.visibility = Visibility.Visible;
+            m_GameOverMessage.text = "Game Over!! \n\nHas avanzado a través de " + currentLevel + " niveles";
+            
+            
+        }
     }
+
+    
 
     public void NuevoNivel()
     {
@@ -60,5 +79,19 @@ public class GameManager : MonoBehaviour
         playerManager.Spawn(boardManager, new Vector2Int(1, 1));
 
         currentLevel++;
+    }
+
+    public void StartNewGame()
+    {
+        m_GameOverPanel.style.visibility= Visibility.Hidden;
+        currentLevel = 1;
+        m_comida = 60;
+        m_FoodLabel.text = "Comida: " + m_comida;
+
+        boardManager.Limpiar();
+        boardManager.Init();
+        playerManager.Init();
+        playerManager.Spawn(boardManager, new Vector2Int(1, 1));
+        
     }
 }
