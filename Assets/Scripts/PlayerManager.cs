@@ -15,15 +15,15 @@ public class PlayerManager : MonoBehaviour
     private Vector3 m_MoveTarget;
     
     private BoardManager m_Board;
-    private Vector2Int m_CellPosition;
+    public Vector2Int CellPosition;
 
     private bool m_IsGameOver;
 
-    private Animator m_Animator;
+    public Animator Animator;
 
     private void Awake()
     {
-        m_Animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
     }
 
     public void Init()
@@ -49,19 +49,19 @@ public class PlayerManager : MonoBehaviour
 
     public void MoveTo(Vector2Int cell, bool inmediate)
     {
-        m_CellPosition = cell;
+        CellPosition = cell;
 
         if(inmediate)
         {
             m_isMoving = false;
-            transform.position = m_Board.CellToWorld(m_CellPosition);
+            transform.position = m_Board.CellToWorld(CellPosition);
         }
         else
         {
             m_isMoving = true;
-            m_MoveTarget = m_Board.CellToWorld(m_CellPosition);
+            m_MoveTarget = m_Board.CellToWorld(CellPosition);
         }
-       m_Animator.SetBool("Moving", m_isMoving);
+       Animator.SetBool("Moving", m_isMoving);
 
     }
     public void GameOver()
@@ -71,7 +71,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void Update ()
     {
-        Vector2Int newCellTarget = m_CellPosition;
+        Vector2Int newCellTarget = CellPosition;
         bool hasMoved = false;
 
         if (m_IsGameOver)
@@ -90,8 +90,8 @@ public class PlayerManager : MonoBehaviour
             if (transform.position == m_MoveTarget)
             {
                 m_isMoving = false;
-                m_Animator.SetBool("Moving", false);
-                var cellData = m_Board.GetCellData(m_CellPosition);
+                Animator.SetBool("Moving", false);
+                var cellData = m_Board.GetCellData(CellPosition);
                 if (cellData.ContainObject != null) cellData.ContainObject.PlayerEntered();
             }
             return;

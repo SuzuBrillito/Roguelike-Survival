@@ -9,6 +9,7 @@ public class BoardManager : MonoBehaviour
     public WallObject WallPrefab;
     public WallObject2 Wall2Prefab;
     public ExistCellObject ExitPrefab;
+    public EnemyObject EnemyPrefab;
 
     public class CellData
     {
@@ -73,6 +74,7 @@ public class BoardManager : MonoBehaviour
         m_EmptyCells.Remove(endCoord);
         GenerateObstacles();
         GenerateObstacles2();
+        GenerateEnemies();
         GenerateFood();
         GenerateFood2();
 
@@ -161,6 +163,22 @@ public class BoardManager : MonoBehaviour
             AddObject(newObstacle2, coord);
 
         }
+    }
+
+    void GenerateEnemies()
+    {
+
+        int enemiesCount = Random.Range(2, 5);
+        for (int i = 0;i < enemiesCount; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int coord = m_EmptyCells[randomIndex];
+            m_EmptyCells.RemoveAt(randomIndex);
+            EnemyObject newEnemy = Instantiate(EnemyPrefab);
+            AddObject(newEnemy, coord);
+        }
+
+        
     }
 
     

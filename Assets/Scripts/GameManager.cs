@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         m_GameOverPanel.style.visibility= Visibility.Hidden;
         currentLevel = 1;
-        m_comida = 60;
+        m_comida = 100;
         m_FoodLabel.text = "Comida: " + m_comida;
 
         boardManager.Limpiar();

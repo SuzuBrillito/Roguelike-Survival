@@ -21,11 +21,13 @@ public class WallObject2 : CellObject
     public override bool PlayerWantsToEnter()
     {
         m_HealthPoint -= 1;
+        GameManager.Instance.playerManager.Animator.SetTrigger("Attack");
         if (m_HealthPoint > 0)
         {
             return false;
         }
         GameManager.Instance.boardManager.SetCellTile(m_Cell, m_OriginalTile);
+        
         Destroy(gameObject);
         return true;
     }
